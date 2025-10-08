@@ -47,6 +47,8 @@ monitoring capabilities from the terminal.`,
 	rootCmd.AddCommand(cli.NewVersionCommand())
 	rootCmd.AddCommand(cli.NewAuthCommand())
 	rootCmd.AddCommand(cli.NewTaskSendCommand())
+	rootCmd.AddCommand(cli.NewOcaCommand())
+	rootCmd.AddCommand(cli.NewWorkflowCommand())
 
 	if err := rootCmd.ExecuteContext(context.Background()); err != nil {
 		os.Exit(1)
