@@ -4,6 +4,36 @@
 - Run from Cline project root: `cd /path/to/cline`
 - Binaries: `./cli/bin/cline` and `./cli/bin/cline-host`
 
+## Global Installation
+
+```bash
+# Create symlinks
+sudo ln -sf /path/to/cline/cli/bin/cline /usr/local/bin/cline
+
+# Add helper function to ~/.zshrc or ~/.bashrc
+cline-here() {
+    (cd /path/to/cline && cline "$@" -w "$(pwd)")
+}
+
+# Usage from anywhere
+cd /projects/my-repo
+cline-here task new "Fix bug"
+```
+
+See [INSTALL.md](INSTALL.md) for complete guide.
+
+## Repository Selection
+
+```bash
+-w /path/to/repo              # Single repository
+-w /repo1 -w /repo2           # Multiple repositories
+
+# Examples
+cline task new "task" -w /projects/api
+cline workflow run deploy -w /projects/prod
+cline-here task new "task"    # Uses current directory
+```
+
 ## Essential Commands
 
 ### Version & Help
@@ -110,12 +140,12 @@ cline task new "prompt" -w /path/to/workdir        # Set working directory
 
 ### Quick Task
 ```bash
-cline task oneshot "Run tests and fix failures"
+cline task oneshot "Run tests and fix failures" -w /projects/app
 ```
 
 ### Interactive Session
 ```bash
-cline task new "Add user authentication"
+cline task new "Add user authentication" -w /projects/api
 cline task follow                # In another terminal
 cline send "Use JWT tokens"      # Send followup
 cline send --approve true        # Approve actions
@@ -124,15 +154,28 @@ cline send --approve true        # Approve actions
 ### Multiple Projects
 ```bash
 cline instance new               # Start for project 1
+cline task new "API work" -w /projects/api --address localhost:50052
+
 cline instance new               # Start for project 2
+cline task new "UI work" -w /projects/web --address localhost:50053
+
 cline instance list              # See both
 cline instance use localhost:50053  # Switch to project 2
 ```
 
+### Using cline-here Helper
+```bash
+cd /projects/my-repo
+cline-here task new "Task"       # Auto-uses /projects/my-repo
+cline-here workflow run deploy   # Runs in current directory
+cline-here task follow
+```
+
 ### Piping Content
 ```bash
-git diff | cline task new "Review these changes"
-cat error.log | cline send "Debug this error"
+cd /projects/my-repo
+git diff | cline-here task new "Review these changes"
+cat error.log | cline-here send "Debug this error"
 ```
 
 ## Aliases (Shorthand)

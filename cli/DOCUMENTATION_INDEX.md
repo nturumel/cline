@@ -98,6 +98,26 @@ cd /path/to/cline
 
 ---
 
+### 6. [INSTALL.md](INSTALL.md) - Installation Guide
+**Best for: Setting up global installation, shell integration**
+
+What you'll find:
+- 🔧 Global installation instructions
+- 🖥️ Platform-specific setup (macOS, Linux, Windows/WSL)
+- 📁 Repository selection patterns
+- 🐚 Shell helper functions
+- ✅ Verification steps
+
+**Size**: ~500 lines - Complete installation guide
+
+Use this when:
+- Installing CLI globally
+- Setting up shell helpers
+- Configuring repository selection
+- "How do I use cline from any directory?"
+
+---
+
 ## 🎯 Quick Navigation Guide
 
 ### I want to...

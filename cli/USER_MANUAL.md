@@ -39,6 +39,32 @@
 
 3. **Important**: Always run commands from the Cline project root, not from the `cli/` directory.
 
+### Global Installation (Optional)
+
+For easier access, install globally:
+
+```bash
+# Create symlinks
+sudo ln -sf /path/to/cline/cli/bin/cline /usr/local/bin/cline
+sudo ln -sf /path/to/cline/cli/bin/cline-host /usr/local/bin/cline-host
+
+# Create helper function (add to ~/.zshrc or ~/.bashrc)
+cline-here() {
+    (cd /path/to/cline && cline "$@" -w "$(pwd)")
+}
+
+# Reload shell
+source ~/.zshrc
+```
+
+Now you can:
+```bash
+cd /projects/my-repo
+cline-here task new "Fix bug"  # Uses /projects/my-repo automatically!
+```
+
+**For complete installation guide, see [INSTALL.md](INSTALL.md)**
+
 ### Authentication
 
 Before using the CLI, authenticate with Cline:
@@ -48,6 +74,23 @@ Before using the CLI, authenticate with Cline:
 ```
 
 This opens your browser for OAuth authentication.
+
+### Repository Selection
+
+Use the `-w` / `--workdir` flag to specify which repository/directory to work in:
+
+```bash
+# Work in specific repository
+cline task new "Your task" -w /projects/my-api
+
+# Work across multiple repositories
+cline task new "Sync repos" \
+  -w /projects/frontend \
+  -w /projects/backend
+
+# With workflows
+cline workflow run deploy -w /projects/prod-app
+```
 
 ---
 

@@ -58,6 +58,44 @@ cd cli
 go build -o bin/cline ./cmd/cline
 ```
 
+## Global Installation
+
+To use `cline` from anywhere on your system:
+
+### Quick Install
+
+```bash
+# Create symlinks (recommended)
+sudo ln -sf /path/to/cline/cli/bin/cline /usr/local/bin/cline
+sudo ln -sf /path/to/cline/cli/bin/cline-host /usr/local/bin/cline-host
+
+# Or add to PATH
+echo 'export PATH="$PATH:/path/to/cline/cli/bin"' >> ~/.zshrc
+source ~/.zshrc
+
+# Verify
+cline version
+```
+
+### Helper Function for Repository Selection
+
+Add this to `~/.zshrc` or `~/.bashrc`:
+
+```bash
+# Run cline from anywhere, auto-select current directory as workdir
+cline-here() {
+    (cd /path/to/cline && cline "$@" -w "$(pwd)")
+}
+```
+
+**Usage:**
+```bash
+cd /projects/my-app
+cline-here task new "Fix bug"  # Automatically uses /projects/my-app
+```
+
+**For complete installation guide, see [INSTALL.md](INSTALL.md)**
+
 ## Quick Start
 
 > **⚠️ Important:** The CLI must be run from the Cline project root directory (where this README's parent directory is located), not from within the `cli/` directory itself. The CLI expects to find binaries at `./cli/bin/cline-host` and other resources relative to the project root.
@@ -100,6 +138,13 @@ Comprehensive documentation is available:
   - Shortcuts and aliases
   - Common patterns
   - Quick troubleshooting
+
+- **[INSTALL.md](INSTALL.md)** - Installation guide:
+  - Global installation instructions
+  - Platform-specific setup (macOS, Linux, Windows/WSL)
+  - Repository selection patterns
+  - Shell integration and helpers
+  - Complete setup examples
 
 ### 1. Check Installation
 
@@ -498,6 +543,32 @@ Remember to check environment variables before deploying.
 **Invoking Workflows:**
 
 When you run `cline workflow run my-deploy.md`, it creates a task with `/my-deploy.md` as the prompt, which tells Cline to follow the workflow instructions.
+
+---
+
+## Repository Selection
+
+All task and workflow commands support the `-w` / `--workdir` flag to specify which repository/directory to work in:
+
+```bash
+# Single repository
+cline task new "Fix authentication bug" -w /projects/my-api
+
+# Multiple repositories
+cline task new "Sync dependencies" \
+  -w /projects/frontend \
+  -w /projects/backend
+
+# With workflows
+cline workflow run deploy -w /projects/production-app
+```
+
+**Pro Tip:** Use the `cline-here` helper function to automatically use your current directory:
+
+```bash
+cd /projects/my-app
+cline-here task new "Add feature"  # Auto-uses /projects/my-app
+```
 
 ---
 
